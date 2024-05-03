@@ -9,10 +9,18 @@ public class TesteVetorDinamico {
         Random gerador = new Random();
 
         while(true){
-            int elemento = 1 + gerador.nextInt(6);
-            v.adicionar(elemento);
+            var oQueFazer = gerador.nextDouble();
+            if(oQueFazer <= 0.4){ //remover
+              System.out.println("Removendo");
+              v.remover();
+            }
+            else{ //adicionar
+              int elemento = 1 + gerador.nextInt(6);
+              System.out.println("Adicionando");
+              v.adicionar(elemento);
+            }
             v.exibir();
-            Thread.sleep(7000);
+            Thread.sleep(4000);
             System.out.println("====================");
         }
     }

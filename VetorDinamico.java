@@ -1,17 +1,11 @@
-public class VetorDinamico{
-    private int [] elementos;
+public class VetorDinamico <Tipo>{
+    private Tipo [] elementos;
     private int quantidade;
     private int capacidade;
 
     public VetorDinamico(){
         this.capacidade = 4;
-        this.elementos = new int[capacidade];
-        // 1 posicao do vetor = elementos[0]
-        // 2 posicao do vetor = elementos[1]
-        // 3 posicao do vetor = elementos[2]
-        // 4 posicao do vetor = elementos[3]
-        // vetor possuí um índice i, 
-        // onde i = 0 até capacidade-1
+        this.elementos = (Tipo[]) new Object[capacidade];
     }
 
     public boolean estaCheio(){
@@ -22,30 +16,44 @@ public class VetorDinamico{
         return quantidade == 0;
     }
 
-    public void adicionar(int elemento){
+    public void adicionar(Tipo elemento){
         if(estaCheio()){
             aumentarCapacidade();
-        }else{
-            elementos[quantidade] = elemento;
-            quantidade++;
         }
+        elementos[quantidade] = elemento;
+        quantidade++;
+        
+    }
+
+    public void remover(){
+      if(!estaVazio())
+        quantidade--;
+      
+      if(capacidade > 4 && quantidade == capacidade / 4){
+        reduzirCapacidade();
+      }
+    }
+
+    public void reduzirCapacidade(){
+      //1. Cortar a capacidade pela metade
+      capacidade = capacidade / 2;
+      //2. Alocar um vetor auxiliar de inteiros com tamanho igual à capacidade nova
+        var aux = (Tipo[]) new Object[capacidade];
+      //3. Copiar todo mundo de elementos para o vetor auxiliar
+      for(int i = 0; i < quantidade; i++){
+        aux[i] = elementos[i];
+      }
+      //4. Fazer com que elementos referencie o mesmo vetor referenciado por aux
+      elementos = aux;
     }
 
     public void aumentarCapacidade(){
-        int[] aux = new int[capacidade*2];
-        // elementos = 0:|2| > 1:|4| > 2:|6| > 3:|| > 4:||
-        // quantidade = 3
+        Tipo[] aux = (Tipo[]) new Object[capacidade*2];
         for(int i = 0; i < quantidade; i++){
             aux[i] = elementos[i];
-            // 1 iteração (i = 0): aux[0] = elementos[0]; |2|
-            // 2 iteração (i = 1): aux[1] = elementos[1]; |4|
-            // 3 iteração (i = 2): aux[2] = elementos[2]; |6|
-            // 3 iterção (i = 3): condição é falsa,
-            // pois i = quantidade, então o laço termina
+            
         }
         elementos = aux; // atualizando o atributo 
-        // elementos, atribuindo um vetor com os mesmos
-        // valores porém com a capacidade dobrada
         capacidade *= 2;
     }
 
